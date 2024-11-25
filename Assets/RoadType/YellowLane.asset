@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: cb1823e97ab71a846b5bc5c0df158d11, type: 3}
-  m_Name: CrossWalk
+  m_Name: YellowLane
   m_EditorClassIdentifier: 
-  name: CrossWalk
-  description: Let humans to walk
-  laneColor: {r: 0, g: 0, b: 0, a: 0}
+  name: Yellow Lane
+  description: Does not allow the cars to go across each other
+  laneColor: {r: 0.97558546, g: 1, b: 0, a: 0}
   blocksMovement: 1
   layerMask:
     serializedVersion: 2
     m_Bits: 0
-  typeIndicator: 00000001
+  typeIndicator: 00010000

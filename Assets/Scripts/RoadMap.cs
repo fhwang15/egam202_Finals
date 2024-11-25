@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using Unity.AI.Navigation;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -16,6 +17,9 @@ public class RoadMap : MonoBehaviour
     public NavMeshSurface NavMeshSurface;
 
     RoadTile[,] tileArray;
+
+
+    public RoadType yellowSingleLane;
 
 
     // Start is called before the first frame update
@@ -37,17 +41,39 @@ public class RoadMap : MonoBehaviour
             
                 tileArray[x, y] = newTile;
 
+                newTile.transform.SetParent(NavMeshSurface.transform);
+
             }
         }
 
 
         NavMeshSurface.BuildNavMesh();
 
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+
+
+        if (Input.GetMouseButtonDown(0))
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out RaycastHit hit))
+            {
+                RoadTile clickedTile = hit.collider.GetComponent<RoadTile>();
+                if (clickedTile != null)
+                {
+                    clickedTile.roadtype = yellowSingleLane;
+
+                    clickedTile.GetComponent<Renderer>().material.color = yellowSingleLane.laneColor;
+
+                    // NavMesh 업데이트
+                    NavMeshSurface.UpdateNavMesh(NavMeshSurface.navMeshData);
+                }
+            }
+        }
     }
 }

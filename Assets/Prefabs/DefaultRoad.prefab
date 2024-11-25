@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5552413469345357695}
   - component: {fileID: 5892967263636108734}
   - component: {fileID: 4228322547117843385}
-  - component: {fileID: 2549000563208844120}
+  - component: {fileID: 1022797780545176620}
   m_Layer: 0
   m_Name: DefaultRoad
   m_TagString: Untagged
@@ -106,7 +106,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2549000563208844120
+--- !u!114 &1022797780545176620
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -118,3 +118,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 814acd70f9093694a95dbeb5fcb14877, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  roadtype: {fileID: 11400000, guid: 3eb8807e749b936429a2acf04409ffb1, type: 2}
+  navObstacle: {fileID: 0}
