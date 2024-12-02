@@ -19,6 +19,9 @@ public class CarController : MonoBehaviour
     public ParticleSystem explosion;
 
     public GameObject replay;
+    public GameObject Win;
+
+    bool reachedGoal;
 
 
     private float randomizeTimer;
@@ -28,6 +31,7 @@ public class CarController : MonoBehaviour
     {
         Angle = 90f;
         waypointRadius = 3f;
+        reachedGoal = false;
 
         car = GetComponent<NavMeshAgent>();
         car.enabled = false; //클릭 될때까지 움직이지 않음. won't move until simulation button is pressed.
@@ -37,7 +41,7 @@ public class CarController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(car != null && car.enabled)
+        if(car != null && car.enabled && !reachedGoal)
         {
 
             randomizeTimer -= Time.deltaTime;
@@ -64,6 +68,12 @@ public class CarController : MonoBehaviour
             
 
         }
+
+        else if (reachedGoal)
+        {
+            car.enabled = false;
+        }
+
     }
 
 
@@ -102,6 +112,15 @@ public class CarController : MonoBehaviour
 
             replay.SetActive(true);
 
+        }
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Goal")
+        {
+            reachedGoal = true;
+            Win.SetActive(true);
         }
     }
 
