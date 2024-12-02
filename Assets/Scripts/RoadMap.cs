@@ -69,6 +69,9 @@ public class RoadMap : MonoBehaviour
                     clickedTile.roadtype = yellowSingleLane;
 
                     clickedTile.GetComponent<Renderer>().material.color = yellowSingleLane.laneColor;
+                    
+                    //clickedTile.navmehsobstacle.enabled = true;
+
 
                     // NavMesh 업데이트
                     NavMeshSurface.UpdateNavMesh(NavMeshSurface.navMeshData);

@@ -7,7 +7,7 @@ public class RoadTile : MonoBehaviour
 {
 
     public RoadType roadtype;
-   // public NavMeshObstacle navObstacle;
+   public NavMeshObstacle navObstacle;
 
     private Renderer tileRenderer; 
 
@@ -24,19 +24,18 @@ public class RoadTile : MonoBehaviour
         
     }
 
-    //private void Awake()
-    //{
-    //    // 만약 NavMeshObstacle이 없다면 추가
-    //    navObstacle = GetComponent<NavMeshObstacle>();
-    //    if (navObstacle == null)
-    //    {
-    //        navObstacle = gameObject.AddComponent<NavMeshObstacle>();
-    //    }
-    //    navObstacle.carving = false; // NavMesh가 타일을 지나갈 수 있도록 구멍을 뚫을 수 있게 설정
-    //    navObstacle.enabled = false; // 초기에는 비활성화
+    private void Awake()
+    {
+        //navObstacle = GetComponent<NavMeshObstacle>();
+        //if (navObstacle == null)
+        //{
+        //    navObstacle = gameObject.AddComponent<NavMeshObstacle>();
+        //}
+        //navObstacle.carving = false; 
+        //navObstacle.enabled = false;
 
-    //    Debug.Log($"NavMeshObstacle initialized. Carving: {navObstacle.carving}, Enabled: {navObstacle.enabled}");
-    //}
+        Debug.Log($"NavMeshObstacle initialized. Carving: {navObstacle.carving}, Enabled: {navObstacle.enabled}");
+    }
 
 
     public bool CanMove()
