@@ -19,7 +19,6 @@ public class CarController : MonoBehaviour
     public ParticleSystem explosion;
 
     public GameObject replay;
-    public GameObject Win;
 
     bool reachedGoal;
 
@@ -105,7 +104,7 @@ public class CarController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Obstacle")
+        if (collision.gameObject.tag == "Obstacle" || collision.gameObject.tag == "Car")
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
@@ -119,8 +118,11 @@ public class CarController : MonoBehaviour
     {
         if (other.gameObject.tag == "Goal")
         {
-            reachedGoal = true;
-            Win.SetActive(true);
+            if (!reachedGoal)
+            {
+                WinLoseCondition.currentScore++;
+                reachedGoal = true;
+            }
         }
     }
 
