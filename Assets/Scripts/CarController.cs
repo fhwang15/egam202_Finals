@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEngine.UI;
+using TMPro;
 
 public class CarController : MonoBehaviour
 {
@@ -12,18 +14,24 @@ public class CarController : MonoBehaviour
 
     public float waypointRadius;
     public float Angle;
-
+    public float randomizeInterval;
 
     public ParticleSystem explosion;
+
+    public GameObject replay;
+
+
+    private float randomizeTimer;
 
     // Start is called before the first frame update
     void Start()
     {
-        Angle = 45f;
+        Angle = 90f;
         waypointRadius = 3f;
 
         car = GetComponent<NavMeshAgent>();
         car.enabled = false; //클릭 될때까지 움직이지 않음. won't move until simulation button is pressed.
+        randomizeTimer = randomizeInterval;
     }
 
     // Update is called once per frame
@@ -31,6 +39,16 @@ public class CarController : MonoBehaviour
     {
         if(car != null && car.enabled)
         {
+
+            randomizeTimer -= Time.deltaTime;
+
+            if(randomizeTimer <= 0f)
+            {
+                UpdateRandomPath();
+                randomizeTimer = randomizeInterval;
+            }
+
+
             if(destination != null && !car.pathPending && car.remainingDistance < 0.5f)
             {
                 Vector3 randomOffset = GetRandomForwardOffset();
@@ -49,6 +67,22 @@ public class CarController : MonoBehaviour
     }
 
 
+    private void UpdateRandomPath()
+    {
+        if(destination != null)
+        {
+            Vector3 randomOffset = GetRandomForwardOffset();
+            Vector3 randomWaypoint = car.transform.position + randomOffset;
+
+            if(NavMesh.SamplePosition(randomWaypoint, out NavMeshHit hit, waypointRadius, NavMesh.AllAreas))
+            {
+                car.SetDestination(hit.position);
+            }
+
+
+        }
+    }
+
     Vector3 GetRandomForwardOffset()
     {
         Vector3 forward = car.transform.forward;
@@ -65,6 +99,9 @@ public class CarController : MonoBehaviour
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
             Destroy(gameObject);
+
+            replay.SetActive(true);
+
         }
     }
 
