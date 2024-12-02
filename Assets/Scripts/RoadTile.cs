@@ -7,8 +7,7 @@ public class RoadTile : MonoBehaviour
 {
 
     public RoadType roadtype;
-   public NavMeshObstacle navObstacle;
-
+   
     private Renderer tileRenderer; 
 
     // Start is called before the first frame update
@@ -26,15 +25,7 @@ public class RoadTile : MonoBehaviour
 
     private void Awake()
     {
-        //navObstacle = GetComponent<NavMeshObstacle>();
-        //if (navObstacle == null)
-        //{
-        //    navObstacle = gameObject.AddComponent<NavMeshObstacle>();
-        //}
-        //navObstacle.carving = false; 
-        //navObstacle.enabled = false;
-
-        Debug.Log($"NavMeshObstacle initialized. Carving: {navObstacle.carving}, Enabled: {navObstacle.enabled}");
+     
     }
 
 

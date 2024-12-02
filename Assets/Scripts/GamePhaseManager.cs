@@ -17,14 +17,7 @@ public class GamePhaseManager : MonoBehaviour
 
     //NavMesh Agents
     public GameObject[] cars; //Car Objects that will move
-    public GameObject[] pedestrians; //Pedestrians objects that will move
-
-    public Transform[] CarDestination; //destination for the cars/pedestrains. 
-    public Transform[] PedestrainDestination; 
-
-    //Button to simulate the result.
-    //public Button simulate;
-
+    //public GameObject[] pedestrians; //Pedestrians objects that will move
 
     // Start is called before the first frame update
     void Start()
@@ -44,15 +37,13 @@ public class GamePhaseManager : MonoBehaviour
         {
             currentPhase = GamePhase.Play;
 
-            for (int i = 0; i < cars.Length; i++)
+            foreach (GameObject car in cars)
             {
-                NavMeshAgent agent = cars[i].GetComponent<NavMeshAgent>();
-                NavMeshAgent agentPedestrains = pedestrians[i].GetComponent<NavMeshAgent>(); //Will develop further.
+                NavMeshAgent agent = car.GetComponent<NavMeshAgent>();
 
-                if(agent != null)
+                if (agent != null)
                 {
                     agent.enabled = true;
-                    agent.SetDestination(CarDestination[i].position);
                 }
 
             }
