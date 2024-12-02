@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 5892967263636108734}
   - component: {fileID: 4228322547117843385}
   - component: {fileID: 1022797780545176620}
+  - component: {fileID: 8051974945796136878}
   m_Layer: 0
   m_Name: DefaultRoad
   m_TagString: Untagged
@@ -119,4 +120,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   roadtype: {fileID: 11400000, guid: 3eb8807e749b936429a2acf04409ffb1, type: 2}
-  navObstacle: {fileID: 0}
+  modifier: {fileID: 8051974945796136878}
+--- !u!114 &8051974945796136878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7927862260891221394}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1e3fdca004f2d45fe8abbed571a8abd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_OverrideArea: 0
+  m_Area: 0
+  m_OverrideGenerateLinks: 0
+  m_GenerateLinks: 0
+  m_IgnoreFromBuild: 0
+  m_ApplyToChildren: 1
+  m_AffectedAgents: ffffffff

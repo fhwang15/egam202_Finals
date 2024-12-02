@@ -16,11 +16,11 @@ public class RoadType : ScriptableObject
 
     public LayerMask layerMask;
 
-    public bool[] typeIndicator = new bool[4];
+    public bool[] typeIndicator = new bool[3];
 
     //type 1 = default Road;
-    //type 2 = yellow Lane
-    //type 4 = cross way
+    //type 2 = white Lane
+    //type 3 = cross way
 
     
 }

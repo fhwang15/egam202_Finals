@@ -13,6 +13,9 @@ public class CarController : MonoBehaviour
     public float waypointRadius;
     public float Angle;
 
+
+    public ParticleSystem explosion;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -53,6 +56,16 @@ public class CarController : MonoBehaviour
         Vector3 direction = randomRotation * forward;
 
         return direction.normalized * Random.Range(1f, waypointRadius);
+    }
+
+
+    private void OnCollisionEnter(Collision collision)
+    {
+        if (collision.gameObject.tag == "Obstacle")
+        {
+            Instantiate(explosion, transform.position, Quaternion.identity);
+            Destroy(gameObject);
+        }
     }
 
 }

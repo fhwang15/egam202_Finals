@@ -95,9 +95,10 @@ GameObject:
   - component: {fileID: 7462943698520278349}
   - component: {fileID: 9219201172220363838}
   - component: {fileID: 1002865297524205745}
+  - component: {fileID: -1679955504140108524}
   m_Layer: 3
   m_Name: Obstacle
-  m_TagString: Untagged
+  m_TagString: Obstacle
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -192,6 +193,33 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 3.424288, z: 1}
   m_Center: {x: 0, y: 1.2121445, z: 0}
+--- !u!54 &-1679955504140108524
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730511080501274456}
+  serializedVersion: 4
+  m_Mass: 1
+  m_Drag: 0
+  m_AngularDrag: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 126
+  m_CollisionDetection: 0
 --- !u!1 &2165862719731464821
 GameObject:
   m_ObjectHideFlags: 0

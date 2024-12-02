@@ -4,6 +4,7 @@ using UnityEngine;
 using TMPro;
 using UnityEngine.UI;
 using UnityEngine.AI;
+using Unity.AI.Navigation;
 
 public class GamePhaseManager : MonoBehaviour
 {
@@ -19,6 +20,9 @@ public class GamePhaseManager : MonoBehaviour
     public GameObject[] cars; //Car Objects that will move
     //public GameObject[] pedestrians; //Pedestrians objects that will move
 
+
+    public NavMeshSurface finalSurface;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -33,6 +37,9 @@ public class GamePhaseManager : MonoBehaviour
 
     public void OnPressed() //Once Button is pressed, it starts simulating the result.
     {
+
+        finalSurface.BuildNavMesh();
+
         if(currentPhase == GamePhase.SetUp)
         {
             currentPhase = GamePhase.Play;
