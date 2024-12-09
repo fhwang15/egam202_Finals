@@ -7,7 +7,7 @@ using UnityEngine.SceneManagement;
 public class ResetButton : MonoBehaviour
 {
     public List<CarController> BacktoInitialPosition;
-    //public List<PedestrainController>
+    public List<PedestrianControl> pedestrains;
 
     public GamePhaseManager Current;
 
@@ -20,7 +20,8 @@ public class ResetButton : MonoBehaviour
 
         if (winLose.win)
         {
-            
+            Debug.Log("Pressed");
+            SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
         } 
         
         else if (!winLose.win)
@@ -31,8 +32,17 @@ public class ResetButton : MonoBehaviour
 
                      objects.ResetPlayerPosition();
                      objects.reachedGoal = false;
-            
                  }
+
+                 foreach(PedestrianControl objects in pedestrains)
+                {
+                    Current.currentPhase = GamePhase.SetUp;
+
+                 objects.ResetPlayerPosition();
+                    objects.reachedGoal = false;
+                 }
+
+            winLose.currentScore = 0;
         }
 
 

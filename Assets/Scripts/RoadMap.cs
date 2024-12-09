@@ -24,6 +24,7 @@ public class RoadMap : MonoBehaviour
 
     public RoadType whiteSingleLane;
     public RoadType defaultLane;
+    public RoadType CrossWalk;
 
     private bool isDragging;
 
@@ -106,11 +107,9 @@ public class RoadMap : MonoBehaviour
 
                 if (clickedmodifier != null)
                 {
-                    Debug.Log($"Modifier 설정 확인: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
-
+                 
                     clickedmodifier.overrideArea = true; // 반드시 true로 설정
                     clickedmodifier.area = NavMesh.GetAreaFromName("Not Walkable");
-                    Debug.Log($"Modifier 설정 완료: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
                 }
             }
 
@@ -125,10 +124,26 @@ public class RoadMap : MonoBehaviour
                 {
                     clickedmodifier.overrideArea = true; // 반드시 true로 설정
                     clickedmodifier.area = NavMesh.GetAreaFromName("Walkable");
-                    Debug.Log($"Modifier 설정 완료: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
+                    
                 }
 
             }
+
+            else if (clickedTile != null && LineSelection.crossway)
+            {
+                clickedTile.roadtype = CrossWalk;
+                clickedTile.GetComponent<Renderer>().material.color = CrossWalk.laneColor;
+
+                NavMeshModifier clickedmodifier = clickedTile.GetComponent<NavMeshModifier>();
+
+                if (clickedmodifier != null)
+                {
+                    clickedmodifier.overrideArea = true; // 반드시 true로 설정
+                    clickedmodifier.area = NavMesh.GetAreaFromName("Crosswalk");
+                    Debug.Log($"Modifier 설정 완료: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
+                }
+            }
+
 
         }
     }

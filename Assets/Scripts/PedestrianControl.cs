@@ -2,15 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEngine.UI;
-using TMPro;
 
-public class CarController : MonoBehaviour
+public class PedestrianControl : MonoBehaviour
 {
-
     private Vector3 initialPosition;
 
-    private NavMeshAgent car;
+    private NavMeshAgent human;
 
     public Transform destination; //Destination for the goal 
 
@@ -36,45 +33,45 @@ public class CarController : MonoBehaviour
         waypointRadius = 3f;
         reachedGoal = false;
 
-        car = GetComponent<NavMeshAgent>();
-        car.enabled = false; //클릭 될때까지 움직이지 않음. won't move until simulation button is pressed.
+        human = GetComponent<NavMeshAgent>();
+        human.enabled = false; //클릭 될때까지 움직이지 않음. won't move until simulation button is pressed.
         randomizeTimer = randomizeInterval;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(car != null && car.enabled && !reachedGoal)
+        if (human != null && human.enabled && !reachedGoal)
         {
 
             randomizeTimer -= Time.deltaTime;
 
-            if(randomizeTimer <= 0f)
+            if (randomizeTimer <= 0f)
             {
                 UpdateRandomPath();
                 randomizeTimer = randomizeInterval;
             }
 
 
-            if(destination != null && !car.pathPending && car.remainingDistance < 0.5f)
+            if (destination != null && !human.pathPending && human.remainingDistance < 0.5f)
             {
                 Vector3 randomOffset = GetRandomForwardOffset();
                 Vector3 waypoint = destination.position + randomOffset;
 
-                if(NavMesh.SamplePosition(waypoint, out NavMeshHit hit, waypointRadius, NavMesh.AllAreas))
+                if (NavMesh.SamplePosition(waypoint, out NavMeshHit hit, waypointRadius, NavMesh.AllAreas))
                 {
-                    car.SetDestination(hit.position);
+                    human.SetDestination(hit.position);
                 }
 
 
             }
-            
+
 
         }
 
         else if (reachedGoal)
         {
-            car.enabled = false;
+            human.enabled = false;
         }
 
     }
@@ -82,14 +79,14 @@ public class CarController : MonoBehaviour
 
     private void UpdateRandomPath()
     {
-        if(destination != null)
+        if (destination != null)
         {
             Vector3 randomOffset = GetRandomForwardOffset();
-            Vector3 randomWaypoint = car.transform.position + randomOffset;
+            Vector3 randomWaypoint = human.transform.position + randomOffset;
 
-            if(NavMesh.SamplePosition(randomWaypoint, out NavMeshHit hit, waypointRadius, NavMesh.AllAreas))
+            if (NavMesh.SamplePosition(randomWaypoint, out NavMeshHit hit, waypointRadius, NavMesh.AllAreas))
             {
-                car.SetDestination(hit.position);
+                human.SetDestination(hit.position);
             }
 
 
@@ -98,7 +95,7 @@ public class CarController : MonoBehaviour
 
     Vector3 GetRandomForwardOffset()
     {
-        Vector3 forward = car.transform.forward;
+        Vector3 forward = human.transform.forward;
         Quaternion randomRotation = Quaternion.Euler(0, Random.Range(-Angle, Angle), 0);
         Vector3 direction = randomRotation * forward;
 
@@ -108,7 +105,7 @@ public class CarController : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        if (collision.gameObject.tag == "Obstacle" || collision.gameObject.tag == "Car" || collision.gameObject.tag == "Pedestrian")
+        if (collision.gameObject.tag == "Obstacle" || collision.gameObject.tag == "Car")
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
             gameObject.SetActive(false);
@@ -118,25 +115,26 @@ public class CarController : MonoBehaviour
 
     public void ResetPlayerPosition()
     {
-        car.enabled = false;
+        human.enabled = false;
         transform.position = initialPosition;
         gameObject.SetActive(true);
-       
+
     }
 
     private void OnTriggerEnter(Collider other)
     {
+
         if (other.gameObject.tag == "Goal")
         {
-            if (!reachedGoal)
+            if(other.transform.position == destination.position)
             {
-                winLose.currentScore++;
-                reachedGoal = true;
+                if (!reachedGoal)
+                {
+                    winLose.currentScore++;
+                    reachedGoal = true;
+                }
             }
         }
     }
-
-
-
 
 }

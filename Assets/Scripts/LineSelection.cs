@@ -41,7 +41,7 @@ public class LineSelection : MonoBehaviour
 
     }
 
-    public void crosswaySelected(bool laneSelected)
+    public void crosswaySelected()
     {
         whiteLane = false;
         eraser = false;

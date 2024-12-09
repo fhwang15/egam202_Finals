@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class WinLoseCondition : MonoBehaviour
 {
-    public static float currentScore;
+    public float currentScore;
     public float maxScore;
 
     public bool win;
