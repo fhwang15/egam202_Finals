@@ -14,7 +14,7 @@ public class LineSelection : MonoBehaviour
 
     private void Start()
     {
-        whiteLane = false;
+        whiteLane = true;
         eraser = false;
         crossway = false;
     }
