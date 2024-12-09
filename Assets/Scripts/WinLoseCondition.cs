@@ -7,6 +7,8 @@ public class WinLoseCondition : MonoBehaviour
     public static float currentScore;
     public float maxScore;
 
+    public bool win;
+
     public GameObject winText;
 
 
@@ -23,6 +25,7 @@ public class WinLoseCondition : MonoBehaviour
         
         if(currentScore == maxScore)
         {
+            win = true;
             winText.SetActive(true);
         }
 

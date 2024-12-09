@@ -8,6 +8,8 @@ using TMPro;
 public class CarController : MonoBehaviour
 {
 
+    private Vector3 initialPosition;
+
     private NavMeshAgent car;
 
     public Transform destination; //Destination for the goal 
@@ -18,9 +20,7 @@ public class CarController : MonoBehaviour
 
     public ParticleSystem explosion;
 
-    public GameObject replay;
-
-    bool reachedGoal;
+    public bool reachedGoal;
 
 
     private float randomizeTimer;
@@ -28,6 +28,8 @@ public class CarController : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        initialPosition = transform.position;
+
         Angle = 90f;
         waypointRadius = 3f;
         reachedGoal = false;
@@ -107,11 +109,17 @@ public class CarController : MonoBehaviour
         if (collision.gameObject.tag == "Obstacle" || collision.gameObject.tag == "Car")
         {
             Instantiate(explosion, transform.position, Quaternion.identity);
-            Destroy(gameObject);
-
-            replay.SetActive(true);
+            gameObject.SetActive(false);
 
         }
+    }
+
+    public void ResetPlayerPosition()
+    {
+        car.enabled = false;
+        transform.position = initialPosition;
+        gameObject.SetActive(true);
+       
     }
 
     private void OnTriggerEnter(Collider other)
@@ -125,5 +133,8 @@ public class CarController : MonoBehaviour
             }
         }
     }
+
+
+
 
 }

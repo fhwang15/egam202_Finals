@@ -6,13 +6,16 @@ using UnityEngine.UI;
 using UnityEngine.AI;
 using Unity.AI.Navigation;
 
+
+public enum GamePhase
+{
+    SetUp,
+    Play
+}
+
 public class GamePhaseManager : MonoBehaviour
 {
-    public enum GamePhase
-    {
-        SetUp,
-        Play
-    }
+  
 
     public GamePhase currentPhase = GamePhase.SetUp; //current phase.
 

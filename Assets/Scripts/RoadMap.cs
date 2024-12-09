@@ -8,6 +8,9 @@ using UnityEngine.AI;
 public class RoadMap : MonoBehaviour
 {
 
+    public static bool isDrawingLocked;
+
+
     public int width = 8;
     public int height = 8;
     public float spacing = 1.05f;
@@ -22,10 +25,19 @@ public class RoadMap : MonoBehaviour
     public RoadType whiteSingleLane;
     public RoadType defaultLane;
 
+    private bool isDragging;
+
+    public LayerMask interactableLayer;
+
 
     // Start is called before the first frame update
     void Start()
     {
+        isDrawingLocked = false;
+
+        isDragging = false;
+        UpdateNavMesh();
+
         tileArray = new RoadTile[width, height];
 
 
@@ -50,57 +62,81 @@ public class RoadMap : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        if (isDrawingLocked)
+        {
+            return;
+        }
 
         if (Input.GetMouseButtonDown(0))
         {
-            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            isDragging = true;   
+        }
 
-            if (Physics.Raycast(ray, out RaycastHit hit))
+        if (Input.GetMouseButtonUp(0)) 
+        {
+            isDragging = false;
+            UpdateNavMesh();
+        }
+
+        if (isDragging)
+        {
+            DrawByDrag();
+        }
+
+        
+    }
+
+    void DrawByDrag()
+    {
+        Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+
+        if (Physics.Raycast(ray, out RaycastHit hit, Mathf.Infinity, interactableLayer))
+        {
+            RoadTile clickedTile = hit.collider.GetComponent<RoadTile>();
+
+            if (clickedTile != null && LineSelection.whiteLane)
             {
-                RoadTile clickedTile = hit.collider.GetComponent<RoadTile>();
 
-                if (clickedTile != null && LineSelection.whiteLane)
+                clickedTile.roadtype = whiteSingleLane;
+                clickedTile.GetComponent<Renderer>().material.color = whiteSingleLane.laneColor;
+
+                NavMeshModifier clickedmodifier = clickedTile.GetComponent<NavMeshModifier>();
+
+
+
+                if (clickedmodifier != null)
                 {
+                    Debug.Log($"Modifier 설정 확인: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
 
-                    clickedTile.roadtype = whiteSingleLane;
-                    clickedTile.GetComponent<Renderer>().material.color = whiteSingleLane.laneColor;
-
-                    NavMeshModifier clickedmodifier = clickedTile.GetComponent<NavMeshModifier>();
-
-
-
-                    if (clickedmodifier != null)
-                    {
-                        Debug.Log($"Modifier 설정 확인: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
-
-                        clickedmodifier.overrideArea = true; // 반드시 true로 설정
-                        clickedmodifier.area = NavMesh.GetAreaFromName("Not Walkable");
-                        Debug.Log($"Modifier 설정 완료: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
-                    }
-
-                    UpdateNavMesh();
+                    clickedmodifier.overrideArea = true; // 반드시 true로 설정
+                    clickedmodifier.area = NavMesh.GetAreaFromName("Not Walkable");
+                    Debug.Log($"Modifier 설정 완료: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
                 }
+            }
 
-                else if (clickedTile != null && LineSelection.eraser)
+            else if (clickedTile != null && LineSelection.eraser)
+            {
+                clickedTile.roadtype = defaultLane;
+                clickedTile.GetComponent<Renderer>().material.color = defaultLane.laneColor;
+
+                NavMeshModifier clickedmodifier = clickedTile.GetComponent<NavMeshModifier>();
+
+                if (clickedmodifier != null)
                 {
-                    clickedTile.roadtype = defaultLane;
-                    clickedTile.GetComponent<Renderer>().material.color = defaultLane.laneColor;
-
-                    NavMeshModifier clickedmodifier = clickedTile.GetComponent<NavMeshModifier>();
-
-                    if (clickedmodifier != null)
-                    {
-                        clickedmodifier.overrideArea = true; // 반드시 true로 설정
-                        clickedmodifier.area = NavMesh.GetAreaFromName("Walkable");
-                        Debug.Log($"Modifier 설정 완료: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
-                    }
-
-                    UpdateNavMesh();
+                    clickedmodifier.overrideArea = true; // 반드시 true로 설정
+                    clickedmodifier.area = NavMesh.GetAreaFromName("Walkable");
+                    Debug.Log($"Modifier 설정 완료: Area {clickedmodifier.area}, Override {clickedmodifier.overrideArea}");
                 }
 
             }
+
         }
+    }
+
+
+    public void LockDrawing(bool lockStatus)
+    {
+        isDrawingLocked = lockStatus;
     }
 
 
